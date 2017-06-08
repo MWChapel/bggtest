@@ -2,6 +2,7 @@
 
 angular.module('BGGApp', [
   'ngRoute',
+  'ngResource',
   'bggview',
   'ngAnimate',
   'picardy.fontawesome',
