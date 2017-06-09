@@ -6,75 +6,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">BGG Utility</a>
+    </div>
+  </div>
+</nav>
 <div class="container">
-    <div class="row header">
+    <div class="row p-5">
         <div class="form-group">
-            <label class="text" for="usr">BGG Username:</label>
+            <label class="control-label" for="usr">BGG Username:</label>
             <input type="text" class="form-control" id="usr" ng-model="userName">
         </div>
-        <button class="btn btn-default btn-md" ng-disabled="!userName" ng-click="searchAuctions()">
+        <button class="btn btn-primary btn-md" ng-disabled="!userName" ng-click="searchAuctions()">
             <i class="fa fa-search" aria-hidden="true"></i>
             Search
         </button>    
     </div>
-    <div class="row body">
-        <div class="row">
-            <div class="col-xs-1">
-            </div>
-            <div class="col-xs-2 text-left">
-                <strong>
-                    <u>Game Name</u>
-                </strong>
-            </div>
-            <div class="col-xs-3 text-left">
-                <strong>
-                    <u>Auctioneer</u>
-                </strong>
-            </div>
-            <div class="col-xs-3 text-left">
-                <strong>
-                    <u>Last Comment</u>
-                </strong>
-            </div>
-            <div class="col-xs-3 text-left">
-                <strong>
-                    <u>Description</u>
-                </strong>
-            </div>
-        </div>
-        <div class="row b-b" ng-repeat="item in foundForSale | orderBy:'name'">
-            <div ng-if="item && item.img" class="col-xs-1 p-5">
-                <img ng-src={{item.img}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
-                <img ng-src={{item.imgalt}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
-            </div>
-            <div class="col-xs-2 text-left p-5">
-                <a href={{item.url}} target="_blank">
-                    <strong>
-                        {{item.name}}
-                    </strong>
-                </a>
-            </div>
-            <div class="col-xs-3 text-left p-5">
-                <strong>
-                    {{item.user}}
-                </strong>
-            </div>
-            <div class="col-xs-3 text-left p-5">
-                <p>
-                    {{item.lastcomment}}
-                </p>
-            </div>
-            <div class="col-xs-3 text-left p-5">
-                <p>
-                    {{item.text}}
-                </p>
-            </div>
-        </div>
-        <div class="row text-center p-5" ng-if="isLoading">
-            <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div> 
+    <div class="panel mt-15 panel-primary">
+      <div class="panel-heading">
+          <div class="row">
+              <div class="col-xs-1">
+              </div>
+              <div class="col-xs-2 text-left p-5">
+                  <strong>
+                      <u>Auction Item</u>
+                  </strong>
+              </div>
+              <div class="col-xs-1 text-left p-5">
+                  <strong>
+                      <u>Seller</u>
+                  </strong>
+              </div>
+              <div class="col-xs-1 text-center p-5">
+                  <strong>
+                      <u>Confidence</u>
+                  </strong>
+              </div>
+              <div class="col-xs-1 text-center p-5">
+                  <strong>
+                      <u>Seller Locale</u>
+                  </strong>
+              </div>
+              <div class="col-xs-1 text-center p-5">
+                  <strong>
+                      <u>Research</u>
+                  </strong>
+              </div>
+              <div class="col-xs-2 text-left p-5">
+                  <strong>
+                      <u>Last Comment</u>
+                  </strong>
+              </div>
+              <div class="col-xs-3 text-left p-5">
+                  <strong>
+                      <u>Description</u>
+                  </strong>
+              </div>
+          </div>
+      </div>
+      <div class="panel-body">
+          <div class="row b-b" ng-repeat="item in foundForSale | orderBy:'name'">
+              <div ng-if="item && item.img" class="col-xs-1 p-5">
+                  <img ng-src={{item.img}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
+                  <img ng-src={{item.imgalt}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
+              </div>
+              <div class="col-xs-2 text-left p-5">
+                  <a href={{item.url}} target="_blank">
+                      <strong>
+                          {{item.name}}
+                      </strong>
+                  </a>
+              </div>
+              <div class="col-xs-1 text-left p-5">
+                  <strong>
+                      {{item.user}}
+                  </strong>
+              </div>
+              <div class="col-xs-1 text-center p-5">
+                  <i class="fa fa fa-2x fa-thumbs-up green-text" title="Veteran/23 Sales/13 Trades"></i>
+              </div>
+              <div class="col-xs-1 text-center p-5">
+                  United States
+              </div>
+              <div class="col-xs-1 text-center p-5">
+                  <button class="btn btn-info btn-sm">
+                      Marketplace
+                  </button>
+              </div>
+              <div  ng-class="['col-xs-2 text-left p-5', {'red-text' : item.issold }]">
+                  <div ng-if="item.issold">
+                      <i class="fa fa-meh-o red-text" aria-hidden="true"> Sold!</i>
+                  </div>
+                  {{item.lastcomment}}
+              </div>
+              <div class="col-xs-3 text-left p-5">
+                  <div ng-if="item.isbin">
+                      <i class="fa fa-star green-text" aria-hidden="true"> BIN Available!</i>
+                  </div>
+                  <div ng-if="!item.isbin">
+                      <i class="fa fa-thumbs-down red-text" aria-hidden="true"> No BIN Available!</i>
+                  </div>
+                  {{item.text}}
+              </div>
+          </div>
+          <div class="row text-center p-5" ng-if="isLoading">
+              <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+              <span class="sr-only">Loading...</span>
+          </div>
+      </div>
+    </div>
 </div>
 </body>
 </html>

@@ -39,6 +39,15 @@
                         var json = x2js.xml_str2json( data );
                         return json;
                 }
+            },
+            
+            getUser: {
+                method: 'GET',
+                url: bggApi + '/user?name=:userId',
+                transformResponse:function(data) {
+                        var json = x2js.xml_str2json( data );
+                        return json;
+                }
             }
         };
 
@@ -50,6 +59,7 @@
             getList: getList,
             getListWComments: getListWComments,
             getWantList: getWantList,
+            getUser: getUser
         };
 
         return service;
@@ -86,6 +96,18 @@
             }
 
             return $q.when(bggXMLResource.getWantList({
+                userId: userId
+            }).$promise);
+        }
+        
+        function getUser(userId) {
+            if (!userId) {
+                return $q.reject({
+                    msg: "Username must be defined"
+                });
+            }
+
+            return $q.when(bggXMLResource.getUser({
                 userId: userId
             }).$promise);
         }

@@ -36,6 +36,8 @@ angular.module('bggview', ['ngRoute'])
                                 angular.forEach($scope.geeklists.geeklist.item, function(childItem) {
                                     if(-1 !== collectionArray.indexOf(childItem._objectname)) {
                                         var lastComment;
+                                        var isBin;
+                                        var isSold;
                                         if(childItem.comment){
                                             if(Array.isArray(childItem.comment)) {
                                                 lastComment = childItem.comment.slice(-1)[0] ? childItem.comment.slice(-1)[0].__text : 'None';
@@ -47,14 +49,23 @@ angular.module('bggview', ['ngRoute'])
                                         }
                                         var imageUrl = "https://cf.geekdo-images.com/images/pic"+childItem._imageid+"_mt.jpg";
                                         var imageAlt = "https://cf.geekdo-images.com/images/pic"+childItem._imageid+"_mt.png";
-                                        $scope.foundForSale.push({img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childItem._username, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
+                                        bggXMLApiService.getUser(childItem._username).then(function (childUser) {
+                                            console.log(childUser);
+                                        });
+                                        if(childItem.body.toLowerCase().indexOf("bin") !== -1 || childItem.body.toLowerCase().indexOf("buy it now") !== -1) {
+                                            isBin = true;
+                                        }
+                                        if(lastComment.toLowerCase().indexOf("bin") !== -1 || lastComment.toLowerCase().indexOf("sold") !== -1) {
+                                            isSold = true;
+                                        }
+                                        $scope.foundForSale.push({issold:isSold, isbin: isBin, img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childItem._username, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
                                     }
                                 });
                             }
                         }, function(error) {
                             //do something
                         });
-                        return $timeout(1000);
+                        return $timeout(2000);
                     });
                 });
             }, function(error) {
