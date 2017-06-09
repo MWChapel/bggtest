@@ -31,37 +31,27 @@
               </div>
               <div class="col-xs-2 text-left p-5">
                   <strong>
-                      <u>Auction Item</u>
+                      Auction Item
                   </strong>
               </div>
-              <div class="col-xs-1 text-left p-5">
+              <div class="col-xs-3 text-center p-5">
                   <strong>
-                      <u>Seller</u>
-                  </strong>
-              </div>
-              <div class="col-xs-1 text-center p-5">
-                  <strong>
-                      <u>Confidence</u>
+                      Seller
                   </strong>
               </div>
               <div class="col-xs-1 text-center p-5">
                   <strong>
-                      <u>Seller Locale</u>
-                  </strong>
-              </div>
-              <div class="col-xs-1 text-center p-5">
-                  <strong>
-                      <u>Research</u>
+                     Research
                   </strong>
               </div>
               <div class="col-xs-2 text-left p-5">
                   <strong>
-                      <u>Last Comment</u>
+                     Last Comment
                   </strong>
               </div>
               <div class="col-xs-3 text-left p-5">
                   <strong>
-                      <u>Description</u>
+                      Description
                   </strong>
               </div>
           </div>
@@ -79,20 +69,28 @@
                       </strong>
                   </a>
               </div>
-              <div class="col-xs-1 text-left p-5">
-                  <strong>
-                      {{item.user}}
-                  </strong>
-              </div>
-              <div class="col-xs-1 text-center p-5">
-                  <i class="fa fa fa-2x fa-thumbs-up green-text" title="Veteran/23 Sales/13 Trades"></i>
-              </div>
-              <div class="col-xs-1 text-center p-5">
-                  United States
+              <div class="col-xs-3 text-left p-5">
+                  <div class="col-xs-2">
+                      <i ng-if="item.sentiment.score === 1" class="fa fa fa-2x fa-smile-o green-text float-right" title={{item.sentiment.string}}> </i>
+                      <i ng-if="item.sentiment.score === 0" class="fa fa fa-2x fa-meh-o yellow-text float-right" title={{item.sentiment.string}}> </i>
+                  </div>
+                  <div class="col-xs-10">
+                      <strong>
+                         {{item.user}}
+                      </strong>
+                      <div>
+                        {{item.locale}}  
+                      </div>
+                      <div>
+                          <small>
+                              {{item.sentiment.string}}  
+                          </small>
+                      </div>
+                  </div>
               </div>
               <div class="col-xs-1 text-center p-5">
                   <button class="btn btn-info btn-sm">
-                      Marketplace
+                      Market
                   </button>
               </div>
               <div  ng-class="['col-xs-2 text-left p-5', {'red-text' : item.issold }]">

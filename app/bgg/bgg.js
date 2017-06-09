@@ -11,6 +11,7 @@ angular.module('bggview', ['ngRoute'])
 
 .controller('BGGCtrl', ['x2js','$http', '$scope', '$timeout', 'bggXMLApiService', function(x2js, $http, $scope, $timeout, bggXMLApiService) {
     
+    $scope.sentimentValue =  sentimentValue;
     $scope.searchAuctions = function() {
         $scope.isLoading = true;
         $scope.foundForSale = [];
@@ -49,16 +50,17 @@ angular.module('bggview', ['ngRoute'])
                                         }
                                         var imageUrl = "https://cf.geekdo-images.com/images/pic"+childItem._imageid+"_mt.jpg";
                                         var imageAlt = "https://cf.geekdo-images.com/images/pic"+childItem._imageid+"_mt.png";
-                                        bggXMLApiService.getUser(childItem._username).then(function (childUser) {
-                                            console.log(childUser);
-                                        });
                                         if(childItem.body.toLowerCase().indexOf("bin") !== -1 || childItem.body.toLowerCase().indexOf("buy it now") !== -1) {
                                             isBin = true;
                                         }
                                         if(lastComment.toLowerCase().indexOf("bin") !== -1 || lastComment.toLowerCase().indexOf("sold") !== -1) {
                                             isSold = true;
                                         }
-                                        $scope.foundForSale.push({issold:isSold, isbin: isBin, img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childItem._username, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
+                                        bggXMLApiService.getUser(childItem._username).then(function (childUser) {
+                                            var sentimentScore = sentimentValue(childUser);
+                                            $scope.foundForSale.push({sentiment: sentimentScore, locale: childUser.user.country._value, issold: isSold, isbin: isBin, img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childItem._username, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
+
+                                        });
                                     }
                                 });
                             }
@@ -75,4 +77,21 @@ angular.module('bggview', ['ngRoute'])
             //do something
         });
     };
+    
+    function sentimentValue(userObject) {
+        var sentimentObject = {};
+        var sentimentScore;
+        var yearValue = new Date().getFullYear() - parseInt(userObject.user.yearregistered._value);
+        var tradeScore = parseInt(userObject.user.traderating._value);
+        var marketRating = parseInt(userObject.user.marketrating._value);
+        if((yearValue + tradeScore + marketRating) >= 5) {
+            sentimentScore = 1;
+        } else {
+            sentimentScore = 0;
+        }
+        sentimentObject.score = sentimentScore;
+        sentimentObject.string = 'Since:' + parseInt(userObject.user.yearregistered._value) + '/Trades:' + tradeScore + '/Market Rating:' + marketRating;
+        return sentimentObject;
+    }
+    
 }]);

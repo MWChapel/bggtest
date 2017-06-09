@@ -1,4 +1,6 @@
-
+.pl-0 {
+    padding-left: 0px !important;
+}
 .p-5 {
     padding: 5px;
 }
@@ -24,6 +26,10 @@
 
 .red-text {
     color: #e80b0b;
+}
+
+.yellow-text {
+    color: #ead007;
 }
  
 .b-b {
