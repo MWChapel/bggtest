@@ -42,3 +42,16 @@
 .tiny-font {
     font-size: 50%;
 }
+
+a,
+.btn,
+.navbar-inner,
+.btn-navbar,
+.btn-info,
+.btn-primary,
+.panel-heading,
+.navbar,
+.progress,
+.progress .bar {
+  background-image: none!important;
+}
