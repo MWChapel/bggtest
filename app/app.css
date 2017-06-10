@@ -5,17 +5,20 @@
     padding-left: 0px !important;
 }
 .p-5 {
-    padding: 5px;
+    padding: 5px !important;
+}
+.p-1 {
+    padding: 1px !important;
 }
 .p-15 {
-    padding: 15px;
+    padding: 15px !important;
 }
 .p-20 {
-    padding: 20px;
+    padding: 20px !important;
 }
 
 .mt-15 {
-    margin-top: 15px;
+    margin-top: 15px !important;
 }
 
 .container {
@@ -39,8 +42,20 @@
     border-bottom: 1px solid #446e9b 
 }
 
+.description-font {
+    font-size: 80%;
+}
+
 .tiny-font {
     font-size: 50%;
+}
+
+.tiny-button-font {
+    font-size: 70%;
+}
+
+.tiny-button-padding {
+    padding: 5px !important;
 }
 
 a,

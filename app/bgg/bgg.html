@@ -77,8 +77,8 @@
                       <strong>
                          {{item.user.user._name}}
                       </strong>
-                      <div>
-                        {{item.locale}}  
+                      <div class="description-font">
+                        {{item.user.user.stateorprovince._value}} {{item.user.user.country._value}} 
                       </div>
                       <div class="tiny-font">
                         {{item.sentiment.string}}  
@@ -91,17 +91,20 @@
                   </div>
               </div>
               <div class="col-xs-1 text-center p-5">
-                  <button class="btn btn-info btn-sm">
-                      Market
+                  <button class="btn btn-info btn-sm tiny-button-padding" data-toggle="tooltip" data-placement="top" title="BGG Marketplace Historical Prices">
+                      <i class="tiny-button-font">BGG</i>
+                  </button>
+                  <button class="btn btn-info btn-sm tiny-button-padding" data-toggle="tooltip" data-placement="top" title="Seach ebay">
+                      <i class="tiny-button-font">ebay</i>
                   </button>
               </div>
-              <div  ng-class="['col-xs-2 text-left p-5', {'red-text' : item.issold }]">
+              <div  ng-class="['col-xs-2 text-left p-5 description-font', {'red-text' : item.issold }]">
                   <div ng-if="item.issold">
                       <i class="fa fa-meh-o red-text" aria-hidden="true"> Sold!</i>
                   </div>
                   {{item.lastcomment}}
               </div>
-              <div class="col-xs-3 text-left p-5">
+              <div class="col-xs-3 text-left p-5 description-font">
                   <div ng-if="item.isbin">
                       <i class="fa fa-star green-text" aria-hidden="true"> BIN Available!</i>
                   </div>
