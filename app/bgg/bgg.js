@@ -11,6 +11,7 @@ angular.module('bggview', ['ngRoute'])
 
 .controller('BGGCtrl', ['x2js','$http', '$scope', '$timeout', 'bggXMLApiService', function(x2js, $http, $scope, $timeout, bggXMLApiService) {
     
+    $scope.showMarketPlace = false;
     $scope.sentimentValue =  sentimentValue;
     $scope.searchAuctions = function() {
         $scope.isLoading = true;
@@ -58,7 +59,7 @@ angular.module('bggview', ['ngRoute'])
                                         }
                                         bggXMLApiService.getUser(childItem._username).then(function (childUser) {
                                             var sentimentScore = sentimentValue(childUser);
-                                            $scope.foundForSale.push({sentiment: sentimentScore, locale: childUser.user.country._value, issold: isSold, isbin: isBin, img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childUser, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
+                                            $scope.foundForSale.push({gameId:childItem, sentiment: sentimentScore, locale: childUser.user.country._value, issold: isSold, isbin: isBin, img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childUser, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
 
                                         });
                                     }
@@ -76,6 +77,26 @@ angular.module('bggview', ['ngRoute'])
         }, function(error) {
             //do something
         });
+    };
+    
+    $scope.getMarketHistory = function(game) {
+        $scope.gameName = game._objectname;
+        $scope.showMarketPlace = true;
+        bggXMLApiService.getPriceHistory(game._objectid).then(function (list) {
+            $scope.soldItems = list.items;
+        }, function(error) {
+                //do something
+        });        
+    };
+    
+    $scope.toggleShowModal = function() {
+        $scope.showMarketPlace = false;
+    };
+    
+    $scope.convertToDate = function (stringDate){
+        var dateOut = new Date(stringDate);
+        dateOut.setDate(dateOut.getDate() + 1);
+        return dateOut;
     };
     
     function sentimentValue(userObject) {

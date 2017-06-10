@@ -7,7 +7,8 @@ angular.module('BGGApp', [
   'ngAnimate',
   'picardy.fontawesome',
   'ui.bootstrap',
-  'cb.x2js'
+  'cb.x2js',
+  'ngModal'
 ]).config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 

@@ -10,7 +10,15 @@
     function BGGXMLApiService($resource, $q, $http, x2js) {
         var bggApi = 'https://www.boardgamegeek.com/xmlapi2';
         var bggApiOld = 'https://www.boardgamegeek.com/xmlapi';
+        var bggMarketApi = 'https://boardgamegeek.com/geekmarket/api/v1';
         var defaultParams = {};
+        
+        var bggMarketResourceActions = {
+            getPriceHistory: {
+                method: 'GET',
+                url: bggMarketApi + '/pricehistory?ajax=1&condition=any&currency=any&objectid=:gameId&objecttype=thing&pageid=1',
+            }
+        };
 
         var bggOLDResourceActions = {
             getList: {
@@ -54,15 +62,29 @@
 
         var bggXMLOldResource = $resource(bggApiOld, defaultParams, bggOLDResourceActions);
         var bggXMLResource = $resource(bggApi, defaultParams, bggResourceActions);
+        var bggMarketResource = $resource(bggMarketApi, defaultParams, bggMarketResourceActions);
 
         var service = {
             getList: getList,
             getListWComments: getListWComments,
             getWantList: getWantList,
-            getUser: getUser
+            getUser: getUser,
+            getPriceHistory: getPriceHistory
         };
 
         return service;
+        
+        function getPriceHistory(gameId) {
+            if (!gameId) {
+                return $q.reject({
+                    msg: "Game ID must be defined"
+                });
+            }
+
+            return $q.when(bggMarketResource.getPriceHistory({
+                gameId: gameId
+            }).$promise);
+        }
 
         function getList(listId) {
             if (!listId) {
