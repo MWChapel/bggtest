@@ -85,12 +85,14 @@ angular.module('bggview', ['ngRoute'])
         var tradeScore = parseInt(userObject.user.traderating._value);
         var marketRating = parseInt(userObject.user.marketrating._value);
         if((yearValue + tradeScore + marketRating) >= 5) {
+            sentimentScore = 2;
+        } else if((yearValue + tradeScore + marketRating) > 1) {
             sentimentScore = 1;
         } else {
             sentimentScore = 0;
         }
         sentimentObject.score = sentimentScore;
-        sentimentObject.string = 'Since:' + parseInt(userObject.user.yearregistered._value) + '/Trades:' + tradeScore + '/Market Rating:' + marketRating;
+        sentimentObject.string = 'Member Since:' + parseInt(userObject.user.yearregistered._value) + ' Trades:' + tradeScore + ' Market Rating:' + marketRating;
         return sentimentObject;
     }
     

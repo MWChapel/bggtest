@@ -35,3 +35,7 @@
 .b-b {
     border-bottom: 1px solid #446e9b 
 }
+
+.tiny-font {
+    font-size: 50%;
+}
