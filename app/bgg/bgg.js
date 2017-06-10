@@ -58,7 +58,7 @@ angular.module('bggview', ['ngRoute'])
                                         }
                                         bggXMLApiService.getUser(childItem._username).then(function (childUser) {
                                             var sentimentScore = sentimentValue(childUser);
-                                            $scope.foundForSale.push({sentiment: sentimentScore, locale: childUser.user.country._value, issold: isSold, isbin: isBin, img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childItem._username, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
+                                            $scope.foundForSale.push({sentiment: sentimentScore, locale: childUser.user.country._value, issold: isSold, isbin: isBin, img:imageUrl, imgalt:imageAlt, lastcomment:lastComment, user:childUser, text:childItem.body, name:childItem._objectname,url:"https://boardgamegeek.com/geeklist/"+item._objectid + "/item/"+childItem._id + "#item"+childItem._id });
 
                                         });
                                     }
