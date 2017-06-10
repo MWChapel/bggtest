@@ -20,4 +20,4 @@ Because of the XML API caching, you may have to submit a couple of time before d
 
 ![Screenshot](https://cf.geekdo-images.com/images/pic3589071.png)
 
-[Screenshot](https://cf.geekdo-images.com/images/pic3589780.png)
+![Screenshot](https://cf.geekdo-images.com/images/pic3589780.png)
