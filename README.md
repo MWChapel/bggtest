@@ -18,4 +18,4 @@ Because of the XML API caching, you may have to submit a couple of time before d
 
 ## Screen Shot
 
-![Screenshot](https://cf.geekdo-images.com/images/pic3588850.png)
+![Screenshot](https://cf.geekdo-images.com/images/pic3588983.png)
