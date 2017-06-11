@@ -24,102 +24,102 @@
             Search
         </button>    
     </div>
-    <div class="panel mt-15 panel-primary">
-      <div class="panel-heading">
-          <div class="row">
-              <div class="col-xs-1">
-              </div>
-              <div class="col-xs-2 text-left p-5">
-                  <strong>
-                      Auction Item
-                  </strong>
-              </div>
-              <div class="col-xs-3 text-center p-5">
-                  <strong>
-                      Seller
-                  </strong>
-              </div>
-              <div class="col-xs-1 text-center p-5">
-                  <strong>
-                     Research
-                  </strong>
-              </div>
-              <div class="col-xs-2 text-left p-5">
-                  <strong>
-                     Last Comment
-                  </strong>
-              </div>
-              <div class="col-xs-3 text-left p-5">
-                  <strong>
-                      Description
-                  </strong>
-              </div>
-          </div>
-      </div>
-      <div class="panel-body">
-          <div class="row b-b" ng-repeat="item in foundForSale | orderBy:'name'">
-              <div ng-if="item && item.img" class="col-xs-1 p-5">
-                  <img ng-src={{item.img}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
-                  <img ng-src={{item.imgalt}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
-              </div>
-              <div class="col-xs-2 text-left p-5">
-                  <a href={{item.url}} target="_blank">
+        <div class="panel mt-15 panel-primary">
+          <div class="panel-heading">
+              <div class="row">
+                  <div class="col-xs-1">
+                  </div>
+                  <div class="col-xs-2 text-left p-5">
                       <strong>
-                          {{item.name}}
+                          Auction Item
                       </strong>
-                  </a>
-              </div>
-              <div class="col-xs-3 text-left p-5">
-                  <div class="col-xs-2 pl-0 pr-0">
-                      <img ng-src={{item.user.user.avatarlink._value}} class="pull-right img-responsive" onerror='this.style.display = "none"'>
                   </div>
-                  <div class="col-xs-8">
+                  <div class="col-xs-3 text-center p-5">
                       <strong>
-                         {{item.user.user._name}}
+                          Seller
                       </strong>
-                      <div class="description-font">
-                        {{item.user.user.stateorprovince._value}} {{item.user.user.country._value}} 
-                      </div>
-                      <div class="tiny-font">
-                        {{item.sentiment.string}}  
-                      </div>
                   </div>
-                  <div class="col-xs-2">
-                      <i ng-if="item.sentiment.score === 2" class="fa fa fa-2x fa-smile-o green-text" title="Proven record of Transactions, very little risk"> </i>
-                      <i ng-if="item.sentiment.score === 1" class="fa fa fa-2x fa-meh-o yellow-text" title="A small record of Transactions, somewhat risky"> </i>
-                      <i ng-if="item.sentiment.score === 0" class="fa fa fa-2x fa-frown-o red-text" title="New users without a proven record, very risky"> </i>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                         Research
+                      </strong>
                   </div>
-              </div>
-              <div class="col-xs-1 text-center p-5">
-                  <button class="btn btn-info btn-sm tiny-button-padding" ng-click="getMarketHistory(item.gameId)" data-toggle="tooltip" data-placement="top" title="BGG Marketplace Historical Prices">
-                      <i class="tiny-button-font">BGG</i>
-                  </button>
-                  <button class="btn btn-info btn-sm tiny-button-padding" data-toggle="tooltip" data-placement="top" title="Seach ebay">
-                      <i class="tiny-button-font">ebay</i>
-                  </button>
-              </div>
-              <div  ng-class="['col-xs-2 text-left p-5 description-font', {'red-text' : item.issold }]">
-                  <div ng-if="item.issold">
-                      <i class="fa fa-meh-o red-text" aria-hidden="true"> Sold!</i>
+                  <div class="col-xs-2 text-left p-5">
+                      <strong>
+                         Last Comment
+                      </strong>
                   </div>
-                  {{item.lastcomment}}
-              </div>
-              <div class="col-xs-3 text-left p-5 description-font">
-                  <div ng-if="item.isbin">
-                      <i class="fa fa-star green-text" aria-hidden="true"> BIN Available</i>
+                  <div class="col-xs-3 text-left p-5">
+                      <strong>
+                          Description
+                      </strong>
                   </div>
-                  <div ng-if="!item.isbin">
-                      <i class="fa fa-thumbs-down red-text" aria-hidden="true"> No BIN Available!</i>
-                  </div>
-                  {{item.text}}
               </div>
           </div>
-          <div class="row text-center p-5" ng-if="isLoading">
-              <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
-              <span class="sr-only">Loading...</span>
+          <div class="panel-body list-panel">
+              <div class="row b-b" ng-repeat="item in foundForSale | orderBy:'name'">
+                  <div ng-if="item && item.img" class="col-xs-1 p-5">
+                      <img ng-src={{item.img}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
+                      <img ng-src={{item.imgalt}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
+                  </div>
+                  <div class="col-xs-2 text-left p-5">
+                      <a href={{item.url}} target="_blank">
+                          <strong>
+                              {{item.name}}
+                          </strong>
+                      </a>
+                  </div>
+                  <div class="col-xs-3 text-left p-5">
+                      <div class="col-xs-2 pl-0 pr-0">
+                          <img ng-src={{item.user.user.avatarlink._value}} class="pull-right img-responsive" onerror='this.style.display = "none"'>
+                      </div>
+                      <div class="col-xs-8">
+                          <strong>
+                             {{item.user.user._name}}
+                          </strong>
+                          <div class="description-font">
+                            {{item.user.user.stateorprovince._value}} {{item.user.user.country._value}} 
+                          </div>
+                          <div class="tiny-font">
+                            {{item.sentiment.string}}  
+                          </div>
+                      </div>
+                      <div class="col-xs-2">
+                          <i ng-if="item.sentiment.score === 2" class="fa fa fa-2x fa-smile-o green-text" title="Proven record of Transactions, very little risk"> </i>
+                          <i ng-if="item.sentiment.score === 1" class="fa fa fa-2x fa-meh-o yellow-text" title="A small record of Transactions, somewhat risky"> </i>
+                          <i ng-if="item.sentiment.score === 0" class="fa fa fa-2x fa-frown-o red-text" title="New users without a proven record, very risky"> </i>
+                      </div>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <button class="btn btn-info btn-sm tiny-button-padding" ng-click="getMarketHistory(item.gameId)" data-toggle="tooltip" data-placement="top" title="BGG Marketplace Historical Prices">
+                          <i class="tiny-button-font">BGG</i>
+                      </button>
+                      <button class="btn btn-info btn-sm tiny-button-padding" data-toggle="tooltip" data-placement="top" title="Seach ebay">
+                          <i class="tiny-button-font">ebay</i>
+                      </button>
+                  </div>
+                  <div  ng-class="['col-xs-2 text-left p-5 description-font', {'red-text' : item.issold }]">
+                      <div ng-if="item.issold">
+                          <i class="fa fa-meh-o red-text" aria-hidden="true"> Sold!</i>
+                      </div>
+                      {{item.lastcomment}}
+                  </div>
+                  <div class="col-xs-3 text-left p-5 description-font">
+                      <div ng-if="item.isbin">
+                          <i class="fa fa-star green-text" aria-hidden="true"> BIN Available</i>
+                      </div>
+                      <div ng-if="!item.isbin">
+                          <i class="fa fa-thumbs-down red-text" aria-hidden="true"> No BIN Available!</i>
+                      </div>
+                      {{item.text}}
+                  </div>
+              </div>
+              <div class="row text-center p-5" ng-if="isLoading">
+                  <i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+                  <span class="sr-only">Loading...</span>
+              </div>
           </div>
-      </div>
-    </div>
+        </div>
 </div>
 <modal-dialog show='showMarketPlace' ng-cloak>
     <div class="modal-header">

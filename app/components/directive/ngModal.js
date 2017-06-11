@@ -75,7 +75,7 @@
                     return setupStyle();
                 },
                 template: "<div ng-cloak class='ng-modal ng-cloak ng-hide' ng-show='show'>" +
-                    "<div class='ng-modal-overlay' ng-click='overlayClose ? showModal() : hideModal()'></div>" +
+                    "<div ng-click='overlayClose ? showModal() : hideModal()'></div>" +
                     "<div class='ng-modal-dialog' ng-style='dialogStyle'>" +
                     "<span class='ng-modal-title' ng-show='dialogTitle && dialogTitle.length' ng-bind='dialogTitle'></span>" +
                     "<div class='ng-modal-dialog-content' ng-transclude></div>" +
