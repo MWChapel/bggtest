@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<nav class="navbar navbar-default">
+<nav class="navbar zero-radius navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">BGG Auction Search Tool</a>
@@ -93,9 +93,9 @@
                           <i class="tiny-button-font">BGG Market</i>
                       </button>
                   </div>
-                  <div  ng-class="['col-xs-2 text-left p-5 description-font', {'text-danger' : item.issold }]">
+                  <div  ng-class="['col-xs-2 text-left p-5 description-font', {'text-warning' : item.issold }]">
                       <div ng-if="item.issold">
-                          <i class="fa fa-meh-o text-danger" aria-hidden="true"> Sold!</i>
+                          <i class="fa fa-meh-o" aria-hidden="true"> Indicating Sold!</i>
                       </div>
                       {{item.lastcomment}}
                   </div>

@@ -79,6 +79,10 @@ a,
   box-shadow: none !important;
 }
 
+.zero-radius {
+    border-radius: 0px !important;
+}
+
 .list-panel {
     height: 500px;
     overflow: auto;
