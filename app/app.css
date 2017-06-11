@@ -76,6 +76,7 @@ a,
 .progress,
 .progress .bar {
   background-image: none !important;
+  box-shadow: none !important;
 }
 
 .list-panel {
@@ -94,6 +95,11 @@ a,
     border-radius: 0px !important;
 }
 
+.dialog-modal {
+    margin: 0px !important;
+    border-radius: 0px !important;
+}
+
 .dialog-panel-heading {
     margin: 0px !important;
     border: 0px !important;
@@ -106,7 +112,7 @@ a,
   top: 50%;
   left: 50%;
   width: 50%;
-  border-radius: 5px;
+  border-radius: 0px !important;
   transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
@@ -130,6 +136,4 @@ a,
   font-size: 200%;
   display: block;
   margin-bottom: 10px;
-  padding-bottom: 7px;
-  border-bottom: solid 1px #999;
 }

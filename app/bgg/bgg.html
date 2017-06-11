@@ -9,21 +9,19 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">BGG Utility</a>
+      <a class="navbar-brand" href="#">BGG Auction Search Tool</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userName" placeholder="BGG Username">
+            </div>
+            <button ng-disabled="!userName" ng-click="searchAuctions()" class="btn btn-default">Search</button>
+        </div>
     </div>
   </div>
 </nav>
 <div class="container">
-    <div class="row p-5">
-        <div class="form-group">
-            <label class="control-label" for="usr">BGG Username:</label>
-            <input type="text" class="form-control" id="usr" ng-model="userName">
-        </div>
-        <button class="btn btn-primary btn-md" ng-disabled="!userName" ng-click="searchAuctions()">
-            <i class="fa fa-search" aria-hidden="true"></i>
-            Search
-        </button>    
-    </div>
         <div class="panel mt-15 panel-primary">
           <div class="panel-heading">
               <div class="row">
@@ -85,31 +83,31 @@
                           </div>
                       </div>
                       <div class="col-xs-2">
-                          <i ng-if="item.sentiment.score === 2" class="fa fa fa-2x fa-smile-o green-text" title="Proven record of Transactions, very little risk"> </i>
-                          <i ng-if="item.sentiment.score === 1" class="fa fa fa-2x fa-meh-o yellow-text" title="A small record of Transactions, somewhat risky"> </i>
-                          <i ng-if="item.sentiment.score === 0" class="fa fa fa-2x fa-frown-o red-text" title="New users without a proven record, very risky"> </i>
+                          <i ng-if="item.sentiment.score === 2" class="fa fa fa-2x fa-smile-o text-success" title="Proven record of Transactions, very little risk"> </i>
+                          <i ng-if="item.sentiment.score === 1" class="fa fa fa-2x fa-meh-o text-warning" title="A small record of Transactions, somewhat risky"> </i>
+                          <i ng-if="item.sentiment.score === 0" class="fa fa fa-2x fa-frown-o text-danger" title="New users without a proven record, very risky"> </i>
                       </div>
                   </div>
                   <div class="col-xs-1 text-center p-5">
-                      <button class="btn btn-info btn-sm tiny-button-padding" ng-click="getMarketHistory(item.gameId)" data-toggle="tooltip" data-placement="top" title="BGG Marketplace Historical Prices">
+                      <button class="btn btn-info btn-xs tiny-button-padding" ng-click="getMarketHistory(item.gameId)" data-toggle="tooltip" data-placement="top" title="BGG Marketplace Historical Prices">
                           <i class="tiny-button-font">BGG</i>
                       </button>
-                      <button class="btn btn-info btn-sm tiny-button-padding" data-toggle="tooltip" data-placement="top" title="Seach ebay">
+                      <button class="btn btn-info btn-xs tiny-button-padding" data-toggle="tooltip" data-placement="top" title="Seach ebay">
                           <i class="tiny-button-font">ebay</i>
                       </button>
                   </div>
-                  <div  ng-class="['col-xs-2 text-left p-5 description-font', {'red-text' : item.issold }]">
+                  <div  ng-class="['col-xs-2 text-left p-5 description-font', {'text-danger' : item.issold }]">
                       <div ng-if="item.issold">
-                          <i class="fa fa-meh-o red-text" aria-hidden="true"> Sold!</i>
+                          <i class="fa fa-meh-o text-danger" aria-hidden="true"> Sold!</i>
                       </div>
                       {{item.lastcomment}}
                   </div>
                   <div class="col-xs-3 text-left p-5 description-font">
                       <div ng-if="item.isbin">
-                          <i class="fa fa-star green-text" aria-hidden="true"> BIN Available</i>
+                          <i class="fa fa-star text-success" aria-hidden="true"> BIN Available</i>
                       </div>
                       <div ng-if="!item.isbin">
-                          <i class="fa fa-thumbs-down red-text" aria-hidden="true"> No BIN Available!</i>
+                          <i class="fa fa-thumbs-down text-danger" aria-hidden="true"> No BIN Available!</i>
                       </div>
                       {{item.text}}
                   </div>
@@ -122,58 +120,58 @@
         </div>
 </div>
 <modal-dialog show='showMarketPlace' ng-cloak>
-    <div class="modal-header">
-        <h5 class="modal-title"> BGG Marketplace Historical Pricing for {{gameName}}</h5>
-    </div>
-    <div class="modal-body p-0">
-        <div class="panel panel-primary dialog-panel">
-          <div class="panel-heading dialog-panel-heading">
-              <div class="row">
-                  <div class="col-xs-3 text-left description-font p-5 pl-15">
-                      <strong>
-                          Sell Date
-                      </strong>
-                  </div>
-                  <div class="col-xs-2 text-left description-font p-5">
-                      <strong>
-                          Sell Price
-                      </strong>
-                  </div>
-                  <div class="col-xs-2 text-left description-font p-5">
-                      <strong>
-                         Condition
-                      </strong>
-                  </div>
-                  <div class="col-xs-5 text-left description-font p-5">
-                      <strong>
-                        Notes
-                      </strong>
-                  </div>
-              </div>
+
+          <div class="modal-content modal-header dialog-modal">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">BGG Marketplace Historical Pricing for {{gameName}}</h4>
           </div>
-          <div class="panel-body marketplace-body">
-              <div class="row b-b" ng-repeat="item in soldItems | orderBy:'-saledate'">
-                  <div class="col-xs-3 text-left description-font p-5 pl-15">
-                      {{convertToDate(item.saledate) | date:'MM/dd/yyyy'}}
-                  </div>
-                  <div class="col-xs-2 text-left description-font p-5">
-                      {{item.currencysymbol}}{{item.price}}{{item.currency}}
-                  </div>
-                  <div class="col-xs-2 text-left description-font p-5">
-                      {{item.condition}}
-                  </div>
-                  <div class="col-xs-5 text-left description-font p-5">
-                      {{item.notes}}
-                  </div>
-              </div>
+          <div class="modal-content modal-body dialog-modal p-0">
+              <div class="panel panel-primary dialog-panel">
+                <div class="panel-heading dialog-panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3 text-left description-font p-5 pl-15">
+                            <strong>
+                                Sell Date
+                            </strong>
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            <strong>
+                                Sell Price
+                            </strong>
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            <strong>
+                               Condition
+                            </strong>
+                        </div>
+                        <div class="col-xs-5 text-left description-font p-5">
+                            <strong>
+                              Notes
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body marketplace-body">
+                    <div class="row b-b" ng-repeat="item in soldItems | orderBy:'-saledate'">
+                        <div class="col-xs-3 text-left description-font p-5 pl-15">
+                            {{convertToDate(item.saledate) | date:'MM/dd/yyyy'}}
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            {{item.currencysymbol}}{{item.price}}{{item.currency}}
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            {{item.condition}}
+                        </div>
+                        <div class="col-xs-5 text-left description-font p-5">
+                            {{item.notes}}
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="toggleShowModal()">
-            Cancel
-        </button>
-    </div>
+          <div class="modal-content modal-footer dialog-modal">
+            <button type="button" class="btn btn-default" ng-click="toggleShowModal()">Close</button>
+          </div>
 </modal-dialog>
 </body>
 </html>

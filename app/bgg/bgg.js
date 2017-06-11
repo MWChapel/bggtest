@@ -81,9 +81,9 @@ angular.module('bggview', ['ngRoute'])
     
     $scope.getMarketHistory = function(game) {
         $scope.gameName = game._objectname;
-        $scope.showMarketPlace = true;
         bggXMLApiService.getPriceHistory(game._objectid).then(function (list) {
             $scope.soldItems = list.items;
+            $scope.showMarketPlace = true;
         }, function(error) {
                 //do something
         });        
