@@ -54,7 +54,7 @@ angular.module('bggview', ['ngRoute'])
                                         if(childItem.body.toLowerCase().indexOf("bin") !== -1 || childItem.body.toLowerCase().indexOf("buy it now") !== -1) {
                                             isBin = true;
                                         }
-                                        if(lastComment.toLowerCase().indexOf("bin") !== -1 || lastComment.toLowerCase().indexOf("sold") !== -1) {
+                                        if(lastComment.toLowerCase().indexOf("bin") !== -1 || lastComment.toLowerCase().indexOf("sold") !== -1 || lastComment.toLowerCase().indexOf("check out") !== -1 || lastComment.toLowerCase().indexOf("checkout") !== -1) {
                                             isSold = true;
                                         }
                                         bggXMLApiService.getUser(childItem._username).then(function (childUser) {
