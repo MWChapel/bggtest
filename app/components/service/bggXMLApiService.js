@@ -8,9 +8,9 @@
     BGGXMLApiService.$inject = ['$resource', '$q', '$http', 'x2js'];
 
     function BGGXMLApiService($resource, $q, $http, x2js) {
-        var bggApi = 'https://www.boardgamegeek.com/xmlapi2';
-        var bggApiOld = 'https://www.boardgamegeek.com/xmlapi';
-        var bggMarketApi = 'https://boardgamegeek.com/geekmarket/api/v1';
+        var bggApi = 'http://localhost:8000/xmlapi2';
+        var bggApiOld = 'http://localhost:8000/xmlapi';
+        var bggMarketApi = 'http://localhost:8000/geekmarket/api/v1';
         var defaultParams = {};
         
         var bggMarketResourceActions = {
