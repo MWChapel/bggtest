@@ -160,14 +160,14 @@
                             {{item.condition}}
                         </div>
                         <div class="col-xs-5 text-left description-font p-5">
-                            {{item.notes}}
+                            {{removeBracketText(item.notes)}}
                         </div>
                     </div>
                 </div>
             </div>
           </div>
           <div class="modal-content modal-footer dialog-modal">
-            <button type="button" class="btn btn-default" ng-click="toggleShowModal()">Close</button>
+            <button type="button" class="btn btn-info" ng-click="toggleShowModal()">Close</button>
           </div>
 </modal-dialog>
 </body>
