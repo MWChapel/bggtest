@@ -99,6 +99,13 @@ angular.module('bggview', ['ngRoute'])
         return dateOut;
     };
     
+    $scope.removeBracketText = function(blob) {
+        return blob.replace(/{.*?}/g, "")
+        .replace(/\[.*?\]/g, "")
+        .replace(/<.*?>/g, "")
+        .replace(/\(.*?\)/g, "");
+    };
+    
     function sentimentValue(userObject) {
         var sentimentObject = {};
         var sentimentScore;

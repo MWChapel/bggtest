@@ -101,7 +101,7 @@
                       <div ng-if="item.issold">
                           <i class="fa fa-meh-o" aria-hidden="true"> Indicating Sold!</i>
                       </div>
-                      {{item.lastcomment}}
+                      {{removeBracketText(item.lastcomment)}}
                   </div>
                   <div class="col-xs-3 text-left p-5 description-font">
                       <div ng-if="item.isbin">
@@ -110,7 +110,7 @@
                       <div ng-if="!item.isbin">
                           <i class="fa fa-thumbs-down text-danger" aria-hidden="true"> No BIN Available!</i>
                       </div>
-                      {{item.text}}
+                      {{removeBracketText(item.text)}}
                   </div>
               </div>
           </div>
