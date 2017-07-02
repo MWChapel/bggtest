@@ -51,7 +51,7 @@ angular.module('bggview', ['ngRoute'])
                                         }
                                         var imageUrl = "https://cf.geekdo-images.com/images/pic"+childItem._imageid+"_mt.jpg";
                                         var imageAlt = "https://cf.geekdo-images.com/images/pic"+childItem._imageid+"_mt.png";
-                                        if(childItem.body.toLowerCase().indexOf("bin") !== -1 || childItem.body.toLowerCase().indexOf("buy it now") !== -1) {
+                                        if(childItem.body.toLowerCase().indexOf("bin") !== -1 || childItem.body.toLowerCase().indexOf("buy it now") !== -1 || childItem.body.toLowerCase().indexOf("buy-it-now") !== -1) {
                                             isBin = true;
                                         }
                                         if(lastComment.toLowerCase().indexOf("bin") !== -1 || lastComment.toLowerCase().indexOf("sold") !== -1 || lastComment.toLowerCase().indexOf("check out") !== -1 || lastComment.toLowerCase().indexOf("checkout") !== -1) {
@@ -112,9 +112,9 @@ angular.module('bggview', ['ngRoute'])
         var yearValue = new Date().getFullYear() - parseInt(userObject.user.yearregistered._value);
         var tradeScore = parseInt(userObject.user.traderating._value);
         var marketRating = parseInt(userObject.user.marketrating._value);
-        if((yearValue + tradeScore + marketRating) >= 5) {
+        if((yearValue + tradeScore + marketRating) >= 8) {
             sentimentScore = 2;
-        } else if((yearValue + tradeScore + marketRating) > 1) {
+        } else if((yearValue + tradeScore + marketRating) > 5) {
             sentimentScore = 1;
         } else {
             sentimentScore = 0;
