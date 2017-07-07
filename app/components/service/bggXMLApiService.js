@@ -16,6 +16,7 @@
         var bggMarketResourceActions = {
             getPriceHistory: {
                 method: 'GET',
+                cache: true,
                 url: bggMarketApi + '/pricehistory?ajax=1&condition=any&currency=any&objectid=:gameId&objecttype=thing&pageid=1',
             }
         };
@@ -23,6 +24,7 @@
         var bggOLDResourceActions = {
             getList: {
                 method: 'GET',
+                cache: true,
                 url: bggApiOld + '/geeklist/:listId',
                 transformResponse:function(data) {
                         var json = x2js.xml_str2json( data );
@@ -31,6 +33,7 @@
             },
             getListWComments: {
                 method: 'GET',
+                cache: true,
                 url: bggApiOld + '/geeklist/:listId?comments=1',
                 transformResponse:function(data) {
                         var json = x2js.xml_str2json( data );
@@ -42,6 +45,7 @@
         var bggResourceActions = {
             getWantList: {
                 method: 'GET',
+                cache: true,
                 url: bggApi + '/collection?username=:userId&wishlist=1',
                 transformResponse:function(data) {
                         var json = x2js.xml_str2json( data );
@@ -51,6 +55,7 @@
             
             getUser: {
                 method: 'GET',
+                cache: true,
                 url: bggApi + '/user?name=:userId',
                 transformResponse:function(data) {
                         var json = x2js.xml_str2json( data );
