@@ -19,6 +19,7 @@
     "dependencies": {
         "bower": "^1.8.0",
         "express": "^4.15.3",
+        "lodash": "^4.17.4",
         "request": "^2.81.0"
     }
 }

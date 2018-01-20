@@ -17,7 +17,7 @@
             getPriceHistory: {
                 method: 'GET',
                 cache: true,
-                url: bggMarketApi + '/pricehistory?ajax=1&condition=any&currency=any&objectid=:gameId&objecttype=thing&pageid=1',
+                url: bggMarketApi + '/pricehistory?ajax=1&condition=any&currency=any&objectid=:gameId&objecttype=thing&pageid=:pageNumber' ,
             }
         };
 
@@ -53,6 +53,16 @@
                 }
             },
             
+            getOwnedList: {
+                method: 'GET',
+                cache: true,
+                url: bggApi + '/collection?username=:userId&own=1',
+                transformResponse:function(data) {
+                        var json = x2js.xml_str2json( data );
+                        return json;
+                }
+            },
+            
             getUser: {
                 method: 'GET',
                 cache: true,
@@ -73,21 +83,24 @@
             getList: getList,
             getListWComments: getListWComments,
             getWantList: getWantList,
+            getOwnedList: getOwnedList,
             getUser: getUser,
             getPriceHistory: getPriceHistory
         };
 
         return service;
         
-        function getPriceHistory(gameId) {
+        function getPriceHistory(gameId, pageNumber) {
             if (!gameId) {
                 return $q.reject({
                     msg: "Game ID must be defined"
                 });
             }
+            var pageValue = pageNumber ? pageNumber : 1;
 
             return $q.when(bggMarketResource.getPriceHistory({
-                gameId: gameId
+                gameId: gameId,
+                pageNumber : pageValue
             }).$promise);
         }
 
@@ -123,6 +136,18 @@
             }
 
             return $q.when(bggXMLResource.getWantList({
+                userId: userId
+            }).$promise);
+        }
+        
+        function getOwnedList(userId) {
+            if (!userId) {
+                return $q.reject({
+                    msg: "Username must be defined"
+                });
+            }
+
+            return $q.when(bggXMLResource.getOwnedList({
                 userId: userId
             }).$promise);
         }

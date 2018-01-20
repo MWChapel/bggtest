@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Collection For MWChapel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<nav class="navbar zero-radius navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">BGG Collection Tool</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userName" placeholder="BGG Username">
+            </div>
+            <button ng-disabled="!userName" ng-click="searchCollection()" class="btn btn-default">Search</button>
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="monthsBack" placeholder="# Months back">
+            </div>
+        </div>
+    </div>
+    <div class="navbar-header">
+      <div class="navbar-brand">Total Value: ${{totalValue}}.00 USD</div>
+    </div>
+    <div class="navbar-header">
+      <div class="navbar-brand">Total US Only Value: ${{totalUSValue}}.00 USD</div>
+    </div>
+    <div class="navbar-header">
+      <div class="navbar-brand">Total Non-US Value: ${{totalGlobalValue}}.00 USD</div>
+    </div>
+    <div class="navbar-header">
+      <div class="navbar-brand">Total Mean Value: ${{totalMeanValue}}.00 USD</div>
+    </div>
+  </div>
+</nav>
+<div class="container">
+        <div class="panel mt-15 panel-primary">
+          <div class="panel-heading">
+              <div class="row">
+                  <div class="col-xs-1">
+                      <div class="text-center" ng-if="isLoading">
+                          <i class="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+                          <span class="sr-only">Loading...</span>
+                      </div>
+                  </div>
+                  <div class="col-xs-3 text-left p-5">
+                      <strong>
+                          Game
+                      </strong>
+                  </div>
+                  <div class="col-xs-4 text-left p-5">
+                      <strong>
+                          Average
+                      </strong>
+                  </div>
+                  <div class="col-xs-4 text-left p-5">
+                      <strong>
+                          Mean
+                      </strong>
+                  </div>
+              </div>
+          </div>
+          <div class="panel-body list-panel">
+              <div class="row b-b" ng-repeat="item in collectionArray | orderBy:'-average'">
+                  <div ng-if="item && item.image" class="col-xs-1 p-5">
+                      <img ng-src={{item.image}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
+                  </div>
+                  <div class="col-xs-3 text-left p-5">
+                          <strong>
+                              {{item.name.__text}}
+                          </strong>
+                  </div>
+                  <div class="col-xs-4 text-left p-5">
+                          <strong ng-if="item.average">
+                              ${{item.average}}.00 USD
+                          </strong>
+                          <strong ng-if="!item.average">
+                             NOT ENOUGH DATA
+                          </strong>
+                  </div>
+                  <div class="col-xs-4 text-left p-5">
+                          <strong ng-if="item.mean">
+                              ${{item.mean}}.00 USD
+                          </strong>
+                          <strong ng-if="!item.mean">
+                             NOT ENOUGH DATA
+                          </strong>
+                  </div>
+              </div>
+          </div>
+        </div>
+</div>
+</body>
+</html>
