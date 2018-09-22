@@ -197,7 +197,6 @@ angular
         'bggXMLApiService',
         function(_, x2js, $http, $scope, $timeout, bggXMLApiService) {
             $scope.searchCollection = async () => {
-                $scope.isLoading = true;
                 $scope.collectionArray = [];
 
                 $scope.converter = {
@@ -245,6 +244,7 @@ angular
 
                 angular.forEach($scope.collection.items.item, function(game) {
                     promise = promise.then(async () => {
+                        $scope.isLoading = true;
                         let list = await bggXMLApiService.getPriceHistory(game._objectid);
 
                         let USvalue = 0;
@@ -318,6 +318,7 @@ angular
                         $scope.totalGlobalValue = $scope.totalGlobalValue + globalaverage;
 
                         $scope.collectionArray.push(game);
+                        $scope.isLoading = false;
                         return $timeout(2000);
                     });
                 });

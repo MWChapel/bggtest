@@ -68,10 +68,12 @@
                   <div ng-if="item && item.image" class="col-xs-1 p-5">
                       <img ng-src={{item.image}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
                   </div>
-                  <div class="col-xs-3 text-left p-5">
-                          <strong>
-                              {{item.name.__text}}
-                          </strong>
+                  <div class="col-xs-3 text-left p-5"> 
+                          <a href="https://boardgamegeek.com/boardgame/{{item._objectid}} "target="_blank">
+                              <strong>
+                                  {{item.name.__text}}
+                              </strong>
+                          </a>
                   </div>
                   <div class="col-xs-4 text-left p-5">
                           <strong ng-if="item.average">
