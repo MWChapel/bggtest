@@ -1,5 +1,7 @@
 'use strict';
 
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 angular
     .module('bggview', ['ngRoute'])
 
@@ -34,15 +36,48 @@ angular
                 let collectionArray = [];
                 let auctionListId = '66420';
 
-                let wants = await bggXMLApiService.getWantList($scope.userName);
-                $scope.collection = wants;
+                const MAX_RETRIES = 5;
+                const RETRY_INTERVAL = 5000;
+                let wants = {};
 
-                let rpgwants = await bggXMLApiService.getRPGWantList($scope.userName);
-                $scope.rpgcollection = rpgwants;
+                for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                    try {
+                        wants = await bggXMLApiService.getWantList($scope.userName);
+                        if (wants.items) {
+                            attempt = 6;
+                        } else {
+                            console.error('RETRY getWantList');
+                        }
+                    } catch (e) {
+                        console.error('Failed to query for content', e);
+                    }
+
+                    if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                }
+                $scope.collection = wants;
 
                 angular.forEach($scope.collection.items.item, function(item) {
                     collectionArray.push(item.name.__text);
                 });
+
+                let rpgwants = {};
+
+                for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                    try {
+                        rpgwants = await bggXMLApiService.getRPGWantList($scope.userName);
+                        if (rpgwants.items) {
+                            attempt = 6;
+                        } else {
+                            console.error('RETRY getRPGWantList');
+                        }
+                    } catch (e) {
+                        console.error('Failed to query for content', e);
+                    }
+
+                    if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                }
+                $scope.rpgcollection = rpgwants;
+
                 angular.forEach($scope.rpgcollection.items.item, function(item) {
                     collectionArray.push(item.name.__text);
                 });
@@ -198,6 +233,7 @@ angular
         function(_, x2js, $http, $scope, $timeout, bggXMLApiService) {
             $scope.searchCollection = async () => {
                 $scope.collectionArray = [];
+                let ownedArray = [];
 
                 $scope.converter = {
                     AUD: 1.2769,
@@ -233,16 +269,61 @@ angular
                     EUR: 0.84703
                 };
 
-                let owned = await bggXMLApiService.getOwnedList($scope.userName);
+                const MAX_RETRIES = 5;
+                const RETRY_INTERVAL = 5000;
+
+                if (!$scope.rpgsOnly) {
+                    let owned = {};
+                    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                        try {
+                            owned = await bggXMLApiService.getOwnedList($scope.userName);
+                            if (owned.items) {
+                                attempt = 6;
+                            } else {
+                                console.log('RETRY getOwnedList');
+                            }
+                        } catch (e) {
+                            console.error('Failed to query for content', e);
+                        }
+
+                        if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                    }
+
+                    angular.forEach(owned.items.item, function(item) {
+                        ownedArray.push(item);
+                    });
+                }
+
+                if ($scope.rpgsOnly) {
+                    let rpgOwned = {};
+                    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                        try {
+                            rpgOwned = await bggXMLApiService.getRPGOwnedList($scope.userName);
+                            if (rpgOwned.items) {
+                                attempt = 6;
+                            } else {
+                                console.log('RETRY getOwnedList');
+                            }
+                        } catch (e) {
+                            console.error('Failed to query for content', e);
+                        }
+
+                        if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                    }
+
+                    angular.forEach(rpgOwned.items.item, function(item) {
+                        ownedArray.push(item);
+                    });
+                }
+
                 $scope.totalValue = 0;
                 $scope.totalMeanValue = 0;
                 $scope.totalGlobalValue = 0;
                 $scope.totalUSValue = 0;
-                $scope.collection = owned;
 
                 let promise = $timeout();
 
-                angular.forEach($scope.collection.items.item, function(game) {
+                angular.forEach(ownedArray, function(game) {
                     promise = promise.then(async () => {
                         $scope.isLoading = true;
                         let list = await bggXMLApiService.getPriceHistory(game._objectid);

@@ -45,7 +45,6 @@
         var bggResourceActions = {
             getWantList: {
                 method: 'GET',
-                cache: true,
                 url: bggApi + '/collection?username=:userId&wishlist=1',
                 transformResponse: function(data) {
                     var json = x2js.xml_str2json(data);
@@ -55,7 +54,6 @@
 
             getRPGWantList: {
                 method: 'GET',
-                cache: true,
                 url: bggApi + '/collection?username=:userId&wishlist=1&subtype=rpgitem',
                 transformResponse: function(data) {
                     var json = x2js.xml_str2json(data);
@@ -65,8 +63,16 @@
 
             getOwnedList: {
                 method: 'GET',
-                cache: true,
                 url: bggApi + '/collection?username=:userId&own=1',
+                transformResponse: function(data) {
+                    var json = x2js.xml_str2json(data);
+                    return json;
+                }
+            },
+
+            getRPGOwnedList: {
+                method: 'GET',
+                url: bggApi + '/collection?username=:userId&own=1&subtype=rpgitem',
                 transformResponse: function(data) {
                     var json = x2js.xml_str2json(data);
                     return json;
@@ -94,6 +100,7 @@
             getWantList: getWantList,
             getRPGWantList: getRPGWantList,
             getOwnedList: getOwnedList,
+            getRPGOwnedList: getRPGOwnedList,
             getUser: getUser,
             getPriceHistory: getPriceHistory
         };
@@ -181,6 +188,20 @@
 
             return $q.when(
                 bggXMLResource.getOwnedList({
+                    userId: userId
+                }).$promise
+            );
+        }
+
+        function getRPGOwnedList(userId) {
+            if (!userId) {
+                return $q.reject({
+                    msg: 'Username must be defined'
+                });
+            }
+
+            return $q.when(
+                bggXMLResource.getRPGOwnedList({
                     userId: userId
                 }).$promise
             );
