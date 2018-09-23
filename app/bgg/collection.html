@@ -56,19 +56,24 @@
                           Game
                       </strong>
                   </div>
-                  <div class="col-xs-3 text-left p-5">
+                  <div class="col-xs-2 text-left p-5">
                       <strong>
                           Average
                       </strong>
                   </div>
-                  <div class="col-xs-3 text-left p-5">
+                  <div class="col-xs-2 text-left p-5">
                       <strong>
                           Mean
                       </strong>
                   </div>
                   <div class="col-xs-2 text-left p-5">
                       <strong>
-                          # of transactions
+                          #/transactions
+                      </strong>
+                  </div>
+                  <div class="col-xs-2 text-left p-5">
+                      <strong>
+                          #/plays
                       </strong>
                   </div>
               </div>
@@ -85,7 +90,7 @@
                               </strong>
                           </a>
                   </div>
-                  <div class="col-xs-3 text-left p-5">
+                  <div class="col-xs-2 text-left p-5">
                           <strong ng-if="item.average">
                               ${{item.average}}.00 USD
                           </strong>
@@ -93,7 +98,7 @@
                              NOT ENOUGH DATA
                           </strong>
                   </div>
-                  <div class="col-xs-3 text-left p-5">
+                  <div class="col-xs-2 text-left p-5">
                           <strong ng-if="item.mean">
                               ${{item.mean}}.00 USD
                           </strong>
@@ -104,6 +109,11 @@
                   <div class="col-xs-2 text-left p-5">
                           <strong>
                               {{item.numberTransactions}}
+                          </strong>
+                  </div>
+                  <div class="col-xs-2 text-left p-5">
+                          <strong>
+                              {{item.numplays}}
                           </strong>
                   </div>
               </div>
