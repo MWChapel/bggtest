@@ -328,6 +328,8 @@ angular
                         $scope.isLoading = true;
                         let list = await bggXMLApiService.getPriceHistory(game._objectid);
 
+                        game.numberTransactions = list.items ? list.items.length : 0;
+
                         let USvalue = 0;
                         let globalValue = 0;
                         let historicalValue = 0;
