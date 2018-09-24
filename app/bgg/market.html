@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Wantlist Market For MWChapel</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<nav class="navbar zero-radius navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">BGG Wantlist Market Tool</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <div class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="userName" placeholder="BGG Username">
+            </div>
+            <button ng-disabled="!userName" ng-click="searchMarket()" class="btn btn-default">Search</button>
+            <div class="form-group">
+              <input type="text" class="form-control" ng-model="monthsBack" placeholder="# Months back">
+            </div>
+            <div class="form-group">
+                <label class="p-10">
+                    <input type="checkbox" class="form-control" ng-model="rpgsOnly"> RPG's
+                </label>
+            </div>
+        </div>
+    </div>
+  </div>
+</nav>
+<div class="container">
+        <div class="panel mt-15 panel-primary">
+          <div class="panel-heading">
+              <div class="row">
+                  <div class="col-xs-1">
+                      <div class="text-center" ng-if="isLoading">
+                          <i class="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+                          <span class="sr-only">Loading...</span>
+                      </div>
+                  </div>
+                  <div class="col-xs-4 text-left p-5">
+                      <strong>
+                          Game
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                         Market High
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                         Market Low
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                         Market
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                         Historic High
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                         Historic Low
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                         Research
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-left p-5">
+                      <strong>
+                          # For Sale
+                      </strong>
+                  </div>
+              </div>
+          </div>
+          <div class="panel-body list-panel">
+              <div class="row b-b" ng-repeat="item in marketArray | orderBy:'-average'">
+                  <div ng-if="item && item.image" class="col-xs-1 p-5">
+                      <img ng-src={{item.image}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
+                  </div>
+                  <div class="col-xs-4 text-left p-5"> 
+                          <a href="https://boardgamegeek.com/boardgame/{{item._objectid}} "target="_blank">
+                              <strong>
+                                  {{item.name.__text}}
+                              </strong>
+                          </a>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                          ${{item.highValue}}
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                          ${{item.lowValue}}
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <button class="btn btn-info tiny-button-padding" ng-click="getMarket(item)" data-toggle="tooltip" data-placement="top" title="BGG Marketplace Prices">
+                          <i class="tiny-button-font">Market</i>
+                      </button>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                          ${{item.historicHighValue}}
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <strong>
+                          ${{item.historicLowValue}}
+                      </strong>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                      <button class="btn btn-info tiny-button-padding" ng-click="getMarketHistory(item)" data-toggle="tooltip" data-placement="top" title="BGG Marketplace Historical Prices">
+                          <i class="tiny-button-font">Historical</i>
+                      </button>
+                  </div>
+                  <div class="col-xs-1 text-center p-5">
+                          <strong>
+                              {{item.numItems}}
+                          </strong>
+                  </div>
+              </div>
+          </div>
+        </div>
+</div>
+<modal-dialog show='showHistorical' ng-cloak>
+          <div class="modal-content modal-header dialog-modal">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">BGG Marketplace Pricing for {{gameName}}</h4>
+          </div>
+          <div class="modal-content modal-body dialog-modal p-0">
+              <div class="panel panel-primary dialog-panel">
+                <div class="panel-heading dialog-panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3 text-left description-font p-5 pl-15">
+                            <strong>
+                                Sell Date
+                            </strong>
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            <strong>
+                                Sell Price
+                            </strong>
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            <strong>
+                               Condition
+                            </strong>
+                        </div>
+                        <div class="col-xs-5 text-left description-font p-5">
+                            <strong>
+                              Notes
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body marketplace-body">
+                    <div class="row b-b" ng-repeat="item in soldItems | orderBy:'-saledate'">
+                        <div class="col-xs-3 text-left description-font p-5 pl-15">
+                            {{convertToDate(item.saledate) | date:'MM/dd/yyyy'}}
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            {{item.currencysymbol}}{{item.price}}{{item.currency}}
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            {{item.condition}}
+                        </div>
+                        <div class="col-xs-5 text-left description-font p-5">
+                            {{removeBracketText(item.notes)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-content modal-footer dialog-modal">
+            <button type="button" class="btn btn-info" ng-click="toggleShowHistoricalModal()">Close</button>
+          </div>
+</modal-dialog>
+<modal-dialog show='showMarket' ng-cloak>
+          <div class="modal-content modal-header dialog-modal">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">BGG Active Marketplace for {{gameName}}</h4>
+          </div>
+          <div class="modal-content modal-body dialog-modal p-0">
+              <div class="panel panel-primary dialog-panel">
+                <div class="panel-heading dialog-panel-heading">
+                    <div class="row">
+                        <div class="col-xs-2 text-left description-font p-5 pl-15">
+                            <strong>
+                                Seller
+                            </strong>
+                        </div>
+                        <div class="col-xs-1 text-left description-font p-5 pl-15">
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5 pl-15">
+                            <strong>
+                                List Date
+                            </strong>
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            <strong>
+                                List Price
+                            </strong>
+                        </div>
+                        <div class="col-xs-1 text-left description-font p-5">
+                            <strong>
+                               Condition
+                            </strong>
+                        </div>
+                        <div class="col-xs-4 text-left description-font p-5">
+                            <strong>
+                              Notes
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body marketplace-body">
+                    <div class="row b-b p-5" ng-repeat="item in marketItems | orderBy:'-listdate'">
+                        <div class="col-xs-2 text-left description-font p-5">
+                            <a href="https://boardgamegeek.com{{item.producthref}}" target="_blank">
+                                <strong>
+                                    {{item.username}}
+                                </strong>
+                            </a>
+                        </div>
+                        <div class="col-xs-1">
+                            <i ng-if="item.feedbackrating > 10" class="fa fa fa-2x fa-smile-o text-success" title="Proven record of Transactions, very little risk"> </i>
+                            <i ng-if="item.feedbackrating > 5 && item.feedbackrating <= 10" class="fa fa fa-2x fa-meh-o text-warning" title="A small record of Transactions, somewhat risky"> </i>
+                            <i ng-if="item.feedbackrating <= 5" class="fa fa fa-2x fa-frown-o text-danger" title="New users without a proven record, very risky"> </i>
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5 pl-15">
+                            {{convertToDate(item.listdate) | date:'MM/dd/yyyy'}}
+                        </div>
+                        <div class="col-xs-2 text-left description-font p-5">
+                            {{item.currencysymbol}}{{item.price}}{{item.currency}}
+                        </div>
+                        <div class="col-xs-1 text-left description-font p-5">
+                            {{item.condition}}
+                        </div>
+                        <div class="col-xs-4 text-left description-font p-5">
+                            {{removeBracketText(item.notes)}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="modal-content modal-footer dialog-modal">
+            <button type="button" class="btn btn-info" ng-click="toggleShowMarketModal()">Close</button>
+          </div>
+</modal-dialog>
+</body>
+</html>

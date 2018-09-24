@@ -18,6 +18,13 @@
                 url:
                     bggMarketApi +
                     '/pricehistory?ajax=1&condition=any&currency=any&objectid=:gameId&objecttype=thing&pageid=:pageNumber'
+            },
+            getActiveMarket: {
+                method: 'GET',
+                cache: true,
+                url:
+                    bggMarketApi +
+                    '?ajax=1&condition=any&currency=any&objectid=:gameId&objecttype=thing&pageid=:pageNumber'
             }
         };
 
@@ -102,7 +109,8 @@
             getOwnedList: getOwnedList,
             getRPGOwnedList: getRPGOwnedList,
             getUser: getUser,
-            getPriceHistory: getPriceHistory
+            getPriceHistory: getPriceHistory,
+            getActiveMarket: getActiveMarket
         };
 
         return service;
@@ -117,6 +125,22 @@
 
             return $q.when(
                 bggMarketResource.getPriceHistory({
+                    gameId: gameId,
+                    pageNumber: pageValue
+                }).$promise
+            );
+        }
+
+        function getActiveMarket(gameId, pageNumber) {
+            if (!gameId) {
+                return $q.reject({
+                    msg: 'Game ID must be defined'
+                });
+            }
+            var pageValue = pageNumber ? pageNumber : 1;
+
+            return $q.when(
+                bggMarketResource.getActiveMarket({
                     gameId: gameId,
                     pageNumber: pageValue
                 }).$promise

@@ -17,6 +17,11 @@ angular
                 templateUrl: 'bgg/collection.html',
                 controller: 'CollectionCtrl'
             });
+
+            $routeProvider.when('/market', {
+                templateUrl: 'bgg/market.html',
+                controller: 'MarketCtrl'
+            });
         }
     ])
 
@@ -321,6 +326,31 @@ angular
                 $scope.totalGlobalValue = 0;
                 $scope.totalUSValue = 0;
 
+                $scope.getMarketHistory = async game => {
+                    $scope.gameName = game.name;
+                    let list = await bggXMLApiService.getPriceHistory(game._objectid);
+                    $scope.soldItems = list.items;
+                    $scope.showMarketPlace = true;
+                };
+
+                $scope.toggleShowModal = () => {
+                    $scope.showMarketPlace = false;
+                };
+
+                $scope.convertToDate = stringDate => {
+                    let dateOut = new Date(stringDate);
+                    dateOut.setDate(dateOut.getDate() + 1);
+                    return dateOut;
+                };
+
+                $scope.removeBracketText = blob => {
+                    return blob
+                        .replace(/{.*?}/g, '')
+                        .replace(/\[.*?\]/g, '')
+                        .replace(/<.*?>/g, '')
+                        .replace(/\(.*?\)/g, '');
+                };
+
                 let promise = $timeout();
 
                 angular.forEach(ownedArray, function(game) {
@@ -406,5 +436,232 @@ angular
                     });
                 });
             };
+        }
+    ])
+
+    .controller('MarketCtrl', [
+        'x2js',
+        '$http',
+        '$scope',
+        '$timeout',
+        'bggXMLApiService',
+        function(x2js, $http, $scope, $timeout, bggXMLApiService) {
+            $scope.showHistorical = false;
+            $scope.showMarket = false;
+
+            $scope.marketArray = [];
+
+            $scope.converter = {
+                AUD: 1.2769,
+                BGN: 1.6566,
+                BRL: 3.1878,
+                CAD: 1.244,
+                CHF: 0.97044,
+                CNY: 6.652,
+                CZK: 22.007,
+                DKK: 6.3038,
+                GBP: 0.74689,
+                HKD: 7.8108,
+                HRK: 6.3485,
+                HUF: 263.15,
+                IDR: 13458.0,
+                ILS: 3.5229,
+                INR: 65.28,
+                JPY: 112.5,
+                KRW: 1145.0,
+                MXN: 18.178,
+                MYR: 4.2205,
+                NOK: 7.9726,
+                NZD: 1.3852,
+                PHP: 50.864,
+                PLN: 3.6458,
+                RON: 3.8957,
+                RUB: 57.811,
+                SEK: 8.173,
+                SGD: 1.3579,
+                THB: 33.32,
+                TRY: 3.5586,
+                ZAR: 13.505,
+                EUR: 0.84703,
+                USD: 1.0
+            };
+
+            $scope.searchMarket = async () => {
+                $scope.isLoading = true;
+                $scope.foundForSale = [];
+                let wishArray = [];
+
+                const MAX_RETRIES = 5;
+                const RETRY_INTERVAL = 5000;
+                if (!$scope.rpgsOnly) {
+                    let wishlist = {};
+                    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                        try {
+                            wishlist = await bggXMLApiService.getWantList($scope.userName);
+                            if (wishlist.items) {
+                                attempt = 6;
+                            } else {
+                                console.log('RETRY getOwnedList');
+                            }
+                        } catch (e) {
+                            console.error('Failed to query for content', e);
+                        }
+
+                        if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                    }
+
+                    angular.forEach(wishlist.items.item, function(item) {
+                        wishArray.push(item);
+                    });
+                }
+
+                if ($scope.rpgsOnly) {
+                    let rpgWishlist = {};
+                    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                        try {
+                            rpgWishlist = await bggXMLApiService.getRPGWantList($scope.userName);
+                            if (rpgWishlist.items) {
+                                attempt = 6;
+                            } else {
+                                console.log('RETRY getOwnedList');
+                            }
+                        } catch (e) {
+                            console.error('Failed to query for content', e);
+                        }
+
+                        if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                    }
+
+                    angular.forEach(rpgWishlist.items.item, function(item) {
+                        wishArray.push(item);
+                    });
+                }
+
+                let promise = $timeout();
+                angular.forEach(wishArray, async game => {
+                    promise = promise.then(async () => {
+                        let list = {};
+                        for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                            try {
+                                list = await bggXMLApiService.getActiveMarket(game._objectid);
+                                if (list.products) {
+                                    attempt = 6;
+                                    if (list.products.length > 0) {
+                                        game.numItems = list.products.length;
+                                        game.active = list.products;
+                                        game = setMarketSpread(game);
+                                    } else {
+                                        game.numItems = 0;
+                                    }
+                                } else {
+                                    console.log('RETRY getOwnedList');
+                                }
+                            } catch (e) {
+                                console.error('Failed to query for content', e);
+                            }
+
+                            if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                        }
+
+                        let history = {};
+                        for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                            try {
+                                history = await bggXMLApiService.getPriceHistory(game._objectid);
+                                if (history.items) {
+                                    attempt = 6;
+                                    if (history.items.length > 0) {
+                                        game.history = history.items;
+                                        game = setHistoricSpread(game);
+                                    }
+                                } else {
+                                    console.log('RETRY getOwnedList');
+                                }
+                            } catch (e) {
+                                console.error('Failed to query for content', e);
+                            }
+
+                            if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                        }
+
+                        if (game.numItems > 0) {
+                            $scope.marketArray.push(game);
+                        }
+                        return $timeout(2000);
+                    });
+                });
+            };
+
+            $scope.getMarketHistory = async game => {
+                $scope.gameName = game._objectname;
+                $scope.soldItems = game.history;
+                $scope.showHistorical = true;
+            };
+
+            $scope.getMarket = async game => {
+                $scope.gameName = game.name.__text;
+                $scope.marketItems = game.active;
+                $scope.showMarket = true;
+            };
+
+            $scope.toggleShowHistoricalModal = () => {
+                $scope.showHistorical = false;
+            };
+
+            $scope.toggleShowMarketModal = () => {
+                $scope.showMarket = false;
+            };
+
+            $scope.convertToDate = stringDate => {
+                let dateOut = new Date(stringDate);
+                dateOut.setDate(dateOut.getDate() + 1);
+                return dateOut;
+            };
+
+            $scope.removeBracketText = blob => {
+                return blob
+                    .replace(/{.*?}/g, '')
+                    .replace(/\[.*?\]/g, '')
+                    .replace(/<.*?>/g, '')
+                    .replace(/\(.*?\)/g, '');
+            };
+
+            function setMarketSpread(game) {
+                let marketItems = game.active;
+                let highValue = 0;
+                let lowValue = 99999;
+
+                angular.forEach(marketItems, function(item) {
+                    let value = Math.trunc(parseInt(item.price) / $scope.converter[item.currency]);
+                    if (value > highValue) {
+                        highValue = value;
+                    }
+                    if (value < lowValue) {
+                        lowValue = value;
+                    }
+                });
+                game.highValue = highValue;
+                game.lowValue = lowValue;
+                return game;
+            }
+
+            function setHistoricSpread(game) {
+                let historicItems = game.history;
+                let highValue = 0;
+                let lowValue = 99999;
+
+                angular.forEach(historicItems, function(item) {
+                    let value = Math.trunc(parseInt(item.price) / $scope.converter[item.currency]);
+
+                    if (value > highValue) {
+                        highValue = value;
+                    }
+                    if (value < lowValue) {
+                        lowValue = value;
+                    }
+                });
+                game.historicHighValue = highValue;
+                game.historicLowValue = lowValue;
+                return game;
+            }
         }
     ]);

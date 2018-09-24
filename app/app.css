@@ -84,7 +84,7 @@ a,
 }
 
 .list-panel {
-    min-height: 600px;
+    height: 80vh;
     overflow: auto;
 }
 
