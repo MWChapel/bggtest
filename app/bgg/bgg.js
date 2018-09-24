@@ -540,6 +540,7 @@ angular
                 let promise = $timeout();
                 angular.forEach(wishArray, async game => {
                     promise = promise.then(async () => {
+                        $scope.isLoading = true;
                         let list = {};
                         for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
                             try {
@@ -586,6 +587,7 @@ angular
                         if (game.numItems > 0) {
                             $scope.marketArray.push(game);
                         }
+                        $scope.isLoading = false;
                         return $timeout(2000);
                     });
                 });
@@ -594,7 +596,9 @@ angular
             $scope.getMarketHistory = async game => {
                 $scope.gameName = game._objectname;
                 $scope.soldItems = game.history;
-                $scope.showHistorical = true;
+                if ($scope.soldItems && $scope.soldItems.length > 0) {
+                    $scope.showHistorical = true;
+                }
             };
 
             $scope.getMarket = async game => {

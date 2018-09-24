@@ -94,13 +94,19 @@
                           </a>
                   </div>
                   <div class="col-xs-1 text-center p-5">
-                      <strong>
+                      <strong ng-if="item.highValue">
                           ${{item.highValue}}
+                      </strong>
+                      <strong ng-if="!item.highValue">
+                         N/A
                       </strong>
                   </div>
                   <div class="col-xs-1 text-center p-5">
-                      <strong>
+                      <strong ng-if="item.lowValue">
                           ${{item.lowValue}}
+                      </strong>
+                      <strong ng-if="!item.lowValue">
+                          N/A
                       </strong>
                   </div>
                   <div class="col-xs-1 text-center p-5">
@@ -109,13 +115,19 @@
                       </button>
                   </div>
                   <div class="col-xs-1 text-center p-5">
-                      <strong>
+                      <strong ng-if="item.historicHighValue">
                           ${{item.historicHighValue}}
+                      </strong>
+                      <strong ng-if="!item.historicHighValue">
+                          N/A
                       </strong>
                   </div>
                   <div class="col-xs-1 text-center p-5">
-                      <strong>
+                      <strong ng-if="item.historicLowValue">
                           ${{item.historicLowValue}}
+                      </strong>
+                      <strong ng-if="!item.historicLowValue">
+                          N/A
                       </strong>
                   </div>
                   <div class="col-xs-1 text-center p-5">
