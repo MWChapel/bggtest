@@ -18,7 +18,6 @@ Input your BGG username and submit. The app takes a few minutes to run, but data
 
 ## Known Issues
 
-Because of the XML API caching, you may have to submit a couple of time before data will start to arrive. You should only have to do this for the initial run against any user ID. Just push submit a couple of times then wait.
 
 ## Screen Shot
 
