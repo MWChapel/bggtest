@@ -489,6 +489,7 @@ angular
             $scope.searchMarket = async () => {
                 $scope.isLoading = true;
                 $scope.foundForSale = [];
+                $scope.marketArray = [];
                 let wishArray = [];
 
                 const MAX_RETRIES = 5;
