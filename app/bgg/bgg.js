@@ -552,6 +552,7 @@ angular
                                         game.numItems = list.products.length;
                                         game.active = list.products;
                                         game = filterGames(game);
+                                        game = paypalFilter(game);
                                         game = setMarketSpread(game);
                                     } else {
                                         game.numItems = 0;
@@ -644,6 +645,14 @@ angular
                         !notes.toLowerCase().includes('auction') &&
                         !notes.toLowerCase().includes('user')
                     );
+                });
+
+                return game;
+            }
+
+            function paypalFilter(game) {
+                angular.forEach(game.active, function(item) {
+                    item.includesPayPal = item.paymentmethod.includes('PayPal');
                 });
 
                 return game;
