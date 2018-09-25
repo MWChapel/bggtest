@@ -8,7 +8,7 @@ This App can be used to search all active Auction Geek Lists against your Wishli
 - Run `npm install`
 - Run `npm start`
 
-Then open a browser and point to `http://localhost:8000`
+To use the Active Auction Search tool point to `http://localhost:8000/#!/bgg`
 
 To use the Collection tool point to `http://localhost:8000/#!/collection`
 
