@@ -550,6 +550,7 @@ angular
                                     if (list.products.length > 0) {
                                         game.numItems = list.products.length;
                                         game.active = list.products;
+                                        game = filterGames(game);
                                         game = setMarketSpread(game);
                                     } else {
                                         game.numItems = 0;
@@ -628,6 +629,24 @@ angular
                     .replace(/<.*?>/g, '')
                     .replace(/\(.*?\)/g, '');
             };
+
+            function filterGames(game) {
+                let marketItems = game.active;
+
+                game.active = game.active.filter(function(item) {
+                    let notes = $scope.removeBracketText(item.notes);
+                    return (
+                        !notes.toLowerCase().includes('reserve') &&
+                        !notes.toLowerCase().includes('reserved') &&
+                        !notes.toLowerCase().includes('preorder') &&
+                        !notes.toLowerCase().includes('pre-order') &&
+                        !notes.toLowerCase().includes('auction') &&
+                        !notes.toLowerCase().includes('user')
+                    );
+                });
+
+                return game;
+            }
 
             function setMarketSpread(game) {
                 let marketItems = game.active;
