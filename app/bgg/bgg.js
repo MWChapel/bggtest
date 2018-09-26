@@ -87,7 +87,22 @@ angular
                     collectionArray.push(item.name.__text);
                 });
 
-                let auctionList = await bggXMLApiService.getList(auctionListId);
+                let auctionList = {};
+
+                for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+                    try {
+                        auctionList = await bggXMLApiService.getList(auctionListId);
+                        if (auctionList.geeklist) {
+                            attempt = 6;
+                        } else {
+                            console.error('RETRY get auction list');
+                        }
+                    } catch (e) {
+                        console.error('Failed to get auction list', e);
+                    }
+
+                    if (attempt < MAX_RETRIES - 1) await delay(RETRY_INTERVAL);
+                }
                 $scope.geeklists = auctionList;
                 let promise = $timeout();
 

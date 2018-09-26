@@ -1,9 +1,9 @@
 {
-    "name": "angular-seed",
+    "name": "chapel-bgg",
     "private": true,
-    "version": "0.0.0",
-    "description": "A starter project for AngularJS",
-    "repository": "https://github.com/angular/angular-seed",
+    "version": "0.0.1",
+    "description": "BGG helper functions",
+    "repository": "https://github.com/MWChapel/bggtest",
     "license": "MIT",
     "devDependencies": {},
     "scripts": {
