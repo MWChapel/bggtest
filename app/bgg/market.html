@@ -271,7 +271,9 @@
                             {{item.currencysymbol}}{{item.price}}{{item.currency}}
                         </div>
                         <div class="col-xs-1 text-left description-font p-15">
-                            {{item.condition}}
+                            <strong>
+                                {{item.condition | uppercase}}
+                            </strong>
                         </div>
                         <div class="col-xs-4 text-left description-font p-15">
                             {{removeBracketText(item.notes)}}
