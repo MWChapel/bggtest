@@ -94,7 +94,7 @@ a,
 
 .marketplace-body {
     overflow-y: scroll;
-    max-height: 300px;
+    max-height: 60vh;
 }
 
 .dialog-panel {
