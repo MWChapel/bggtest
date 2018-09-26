@@ -687,8 +687,8 @@ angular
                         lowValue = value;
                     }
                 });
-                game.highValue = highValue;
-                game.lowValue = lowValue;
+                game.highValue = angular.isNumber(highValue) ? highValue : undefined;
+                game.lowValue = angular.isNumber(lowValue) ? lowValue : undefined;
                 return game;
             }
 
@@ -707,8 +707,8 @@ angular
                         lowValue = value;
                     }
                 });
-                game.historicHighValue = highValue;
-                game.historicLowValue = lowValue;
+                game.historicHighValue = angular.isNumber(highValue) ? highValue : undefined;
+                game.historicLowValue = angular.isNumber(lowValue) ? lowValue : undefined;
                 return game;
             }
         }

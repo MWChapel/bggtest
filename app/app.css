@@ -49,6 +49,10 @@
     border-bottom: 1px solid #446e9b;
 }
 
+.link-font {
+    font-size: 120%;
+}
+
 .description-font {
     font-size: 80%;
 }
@@ -115,7 +119,7 @@ a,
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 50%;
+    width: 70%;
     border-radius: 0px !important;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
