@@ -165,7 +165,7 @@ angular
                                         locale: childUser.user.country._value,
                                         issold: isSold,
                                         isbin: isBin,
-                                        img: imageUrl.images.small.url,
+                                        img: imageUrl.images.crop100.url,
                                         lastcomment: lastComment,
                                         user: childUser,
                                         text: childItem.body,
