@@ -4,12 +4,20 @@ var express = require('express');
 var app = express();
 var request = require('request');
 
-var BGG_BASE_URL = 'https://www.boardgamegeek.com';
+var BGG_BASE_URL = 'https://api.geekdo.com';
 
 app.use(express.static('app'));
 
-app.get(['/xmlapi2/*', '/xmlapi/*', '/api/*'], function(req, res) {
+app.get(['/xmlapi2/*', '/xmlapi/*'], function(req, res) {
     req.pipe(request('https://www.boardgamegeek.com' + req.url))
+        .on('error', error => {
+            res.status(500).send(error.message);
+        })
+        .pipe(res);
+});
+
+app.get(['/api/*'], function(req, res) {
+    req.pipe(request('https://api.geekdo.com' + req.url))
         .on('error', error => {
             res.status(500).send(error.message);
         })

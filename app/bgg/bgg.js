@@ -566,8 +566,10 @@ angular
                                     if (list.products.length > 0) {
                                         game.numItems = list.products.length;
                                         game.active = list.products;
-                                        game = filterGames(game);
-                                        game = paypalFilter(game);
+                                        //BGG took out notes from the API for now.
+                                        //game = filterGames(game);
+                                        //BGG took out payment from the API for now.
+                                        //game = paypalFilter(game);
                                         game = setMarketSpread(game);
                                     } else {
                                         game.numItems = 0;
@@ -640,6 +642,9 @@ angular
             };
 
             $scope.removeBracketText = blob => {
+                if(!blob) {
+                    return '';
+                }
                 return blob
                     .replace(/{.*?}/g, '')
                     .replace(/\[.*?\]/g, '')
@@ -651,15 +656,19 @@ angular
                 let marketItems = game.active;
 
                 game.active = game.active.filter(function(item) {
-                    let notes = $scope.removeBracketText(item.notes);
-                    return (
-                        !notes.toLowerCase().includes('reserve') &&
-                        !notes.toLowerCase().includes('reserved') &&
-                        !notes.toLowerCase().includes('preorder') &&
-                        !notes.toLowerCase().includes('pre-order') &&
-                        !notes.toLowerCase().includes('auction') &&
-                        !notes.toLowerCase().includes('user')
-                    );
+                    if(item.linkeduserGeekMarket && item.linkeduserGeekMarket.notes) {
+                        let notes = $scope.removeBracketText(item.linkeduserGeekMarket.notes);
+                        return (
+                            !notes.toLowerCase().includes('reserve') &&
+                            !notes.toLowerCase().includes('reserved') &&
+                            !notes.toLowerCase().includes('preorder') &&
+                            !notes.toLowerCase().includes('pre-order') &&
+                            !notes.toLowerCase().includes('auction') &&
+                            !notes.toLowerCase().includes('user')
+                        ); 
+                    } else {
+                        return true;
+                    }
                 });
 
                 return game;
