@@ -137,14 +137,9 @@ angular
                                     } else {
                                         lastComment = 'None';
                                     }
-                                    let imageUrl =
-                                        'https://cf.geekdo-images.com/images/pic' +
-                                        childItem._imageid +
-                                        '_mt.jpg';
-                                    let imageAlt =
-                                        'https://cf.geekdo-images.com/images/pic' +
-                                        childItem._imageid +
-                                        '_mt.png';
+
+                                    let imageUrl = await bggXMLApiService.getImage(childItem._imageid);
+                                    
                                     if (
                                         childItem.body.toLowerCase().indexOf('bin') !== -1 ||
                                         childItem.body.toLowerCase().indexOf('buy it now') !== -1 ||
@@ -170,8 +165,7 @@ angular
                                         locale: childUser.user.country._value,
                                         issold: isSold,
                                         isbin: isBin,
-                                        img: imageUrl,
-                                        imgalt: imageAlt,
+                                        img: imageUrl.images.small.url,
                                         lastcomment: lastComment,
                                         user: childUser,
                                         text: childItem.body,

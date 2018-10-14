@@ -9,6 +9,7 @@
         var bggApi = 'http://localhost:8000/xmlapi2';
         var bggApiOld = 'http://localhost:8000/xmlapi';
         var bggMarketApi = 'http://localhost:8000/api/geekmarket/products';
+        var bggImageApi = 'http://localhost:8000/api/images';
         var defaultParams = {};
 
         var bggMarketResourceActions = {
@@ -94,6 +95,14 @@
                     var json = x2js.xml_str2json(data);
                     return json;
                 }
+            },
+            
+            getImage: {
+                method: 'GET',
+                cache: true,
+                url:
+                    bggImageApi +
+                    '/:imageId'
             }
         };
 
@@ -109,6 +118,7 @@
             getOwnedList: getOwnedList,
             getRPGOwnedList: getRPGOwnedList,
             getUser: getUser,
+            getImage: getImage,
             getPriceHistory: getPriceHistory,
             getActiveMarket: getActiveMarket
         };
@@ -241,6 +251,20 @@
             return $q.when(
                 bggXMLResource.getUser({
                     userId: userId
+                }).$promise
+            );
+        }
+
+        function getImage(imageId) {
+            if (!imageId) {
+                return $q.reject({
+                    msg: 'imageId must be defined'
+                });
+            }
+
+            return $q.when(
+                bggXMLResource.getImage({
+                    imageId: imageId
                 }).$promise
             );
         }

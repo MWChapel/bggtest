@@ -62,7 +62,6 @@
               <div class="row b-b" ng-repeat="item in foundForSale | orderBy:'name'">
                   <div ng-if="item && item.img" class="col-xs-1 p-5">
                       <img ng-src={{item.img}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
-                      <img ng-src={{item.imgalt}}  class="pull-right img-responsive" width="40" onerror='this.style.display = "none"'>
                   </div>
                   <div class="col-xs-2 text-left p-5">
                       <a href={{item.url}} target="_blank">
